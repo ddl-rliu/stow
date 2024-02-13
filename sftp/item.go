@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/flyteorg/stow/local"
+	"github.com/ddl-rliu/stow/local"
 )
 
 type item struct {

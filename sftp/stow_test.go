@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/flyteorg/stow"
-	"github.com/flyteorg/stow/test"
+	"github.com/ddl-rliu/stow"
+	"github.com/ddl-rliu/stow/test"
 	"github.com/stretchr/testify/require"
 )
 

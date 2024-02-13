@@ -2,13 +2,14 @@ package azure
 
 import (
 	"context"
-	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob/blob"
 	"io"
 	"net/url"
 	"sync"
 	"time"
 
-	"github.com/flyteorg/stow"
+	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob/blob"
+
+	"github.com/ddl-rliu/stow"
 )
 
 type item struct {

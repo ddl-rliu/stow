@@ -10,7 +10,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/flyteorg/stow"
+	"github.com/ddl-rliu/stow"
 )
 
 type container struct {

@@ -6,7 +6,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/flyteorg/stow"
+	"github.com/ddl-rliu/stow"
 	"github.com/ncw/swift"
 	"github.com/pkg/errors"
 )

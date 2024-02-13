@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
-	"github.com/flyteorg/stow"
+	"github.com/ddl-rliu/stow"
 	"github.com/pkg/errors"
 )
 

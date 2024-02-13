@@ -10,8 +10,8 @@ import (
 	"testing"
 
 	"github.com/cheekybits/is"
-	"github.com/flyteorg/stow"
-	"github.com/flyteorg/stow/test"
+	"github.com/ddl-rliu/stow"
+	"github.com/ddl-rliu/stow/test"
 )
 
 var (

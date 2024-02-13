@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/flyteorg/stow"
+	"github.com/ddl-rliu/stow"
 	"github.com/ncw/swift"
 )
 

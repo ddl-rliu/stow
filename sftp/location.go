@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/flyteorg/stow"
+	"github.com/ddl-rliu/stow"
 	"github.com/hashicorp/go-multierror"
 	"github.com/pkg/errors"
 	"github.com/pkg/sftp"

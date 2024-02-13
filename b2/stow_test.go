@@ -8,8 +8,8 @@ import (
 	"time"
 
 	isi "github.com/cheekybits/is"
-	"github.com/flyteorg/stow"
-	"github.com/flyteorg/stow/test"
+	"github.com/ddl-rliu/stow"
+	"github.com/ddl-rliu/stow/test"
 )
 
 func TestStow(t *testing.T) {

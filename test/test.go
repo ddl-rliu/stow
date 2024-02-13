@@ -5,7 +5,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"io"
 	"io/ioutil"
 	"math/rand"
@@ -19,8 +18,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/cheekybits/is"
-	"github.com/flyteorg/stow"
+	"github.com/ddl-rliu/stow"
 )
 
 // All runs a generic suite of tests for Stow storage

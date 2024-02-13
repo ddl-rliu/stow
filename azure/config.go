@@ -3,12 +3,13 @@ package azure
 import (
 	"errors"
 	"fmt"
-	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob"
 	"net/url"
 	"strconv"
 
-	"github.com/flyteorg/stow"
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob"
+
+	"github.com/ddl-rliu/stow"
 )
 
 // ConfigAccount should be the name of your storage account in the Azure portal

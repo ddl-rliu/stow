@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/flyteorg/stow"
+	"github.com/ddl-rliu/stow"
 	"gopkg.in/kothar/go-backblaze.v0"
 )
 
