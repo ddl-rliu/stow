@@ -9,7 +9,7 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob/blob"
 
-	"github.com/ddl-rliu/stow"
+	"github.com/flyteorg/stow"
 )
 
 type item struct {

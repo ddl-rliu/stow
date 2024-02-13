@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ddl-rliu/stow"
+	"github.com/flyteorg/stow"
 	"github.com/ncw/swift"
 )
 

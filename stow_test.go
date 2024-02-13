@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/cheekybits/is"
-	"github.com/ddl-rliu/stow"
+	"github.com/flyteorg/stow"
 )
 
 func TestKindByURL(t *testing.T) {

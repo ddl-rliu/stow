@@ -9,7 +9,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob"
 
-	"github.com/ddl-rliu/stow"
+	"github.com/flyteorg/stow"
 )
 
 // ConfigAccount should be the name of your storage account in the Azure portal

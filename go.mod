@@ -1,4 +1,4 @@
-module github.com/ddl-rliu/stow
+module github.com/flyteorg/stow
 
 go 1.18
 
@@ -57,3 +57,5 @@ require (
 	google.golang.org/genproto v0.0.0-20220426171045-31bebdecfb46 // indirect
 	google.golang.org/grpc v1.46.0 // indirect
 )
+
+replace github.com/flyteorg/stow => github.com/ddl-rliu/stow v0.0.2

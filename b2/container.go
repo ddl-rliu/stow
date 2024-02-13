@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/ddl-rliu/stow"
+	"github.com/flyteorg/stow"
 	"github.com/pkg/errors"
 	"gopkg.in/kothar/go-backblaze.v0"
 )

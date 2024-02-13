@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-sdk-for-go/sdk/storage/azblob"
 	azcontainer "github.com/Azure/azure-sdk-for-go/sdk/storage/azblob/container"
 
-	"github.com/ddl-rliu/stow"
+	"github.com/flyteorg/stow"
 )
 
 type location struct {

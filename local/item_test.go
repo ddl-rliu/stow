@@ -10,8 +10,8 @@ import (
 	"testing"
 
 	"github.com/cheekybits/is"
-	"github.com/ddl-rliu/stow"
-	"github.com/ddl-rliu/stow/local"
+	"github.com/flyteorg/stow"
+	"github.com/flyteorg/stow/local"
 )
 
 func TestItemReader(t *testing.T) {

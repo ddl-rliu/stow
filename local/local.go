@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/ddl-rliu/stow"
+	"github.com/flyteorg/stow"
 )
 
 // ConfigKeys are the supported configuration items for

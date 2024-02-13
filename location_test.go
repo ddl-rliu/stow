@@ -3,7 +3,7 @@ package stow_test
 import (
 	"net/url"
 
-	"github.com/ddl-rliu/stow"
+	"github.com/flyteorg/stow"
 )
 
 func init() {
