@@ -61,6 +61,8 @@ func (c *container) PreSignRequest(ctx context.Context, clientMethod stow.Client
 			// 		params.SSEKMSKeyId = aws.String(encryptionKey)
 			// 	}
 			// }
+			params.ServerSideEncryption = aws.String("aws:kms")
+			params.SSEKMSKeyId = aws.String("kmsId") // placeholder - i think the presigned-url setup means this dummy value is sufficient
 		}
 
 		req, _ = c.client.PutObjectRequest(params)
