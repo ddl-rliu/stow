@@ -58,4 +58,4 @@ require (
 	google.golang.org/grpc v1.46.0 // indirect
 )
 
-replace github.com/flyteorg/stow => github.com/ddl-rliu/stow v0.0.9
+replace github.com/flyteorg/stow => github.com/ddl-rliu/stow v0.0.10
