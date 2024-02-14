@@ -2,6 +2,7 @@ package s3
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -29,6 +30,11 @@ type container struct {
 	extraArgs      string
 }
 
+type S3ExtraArgs struct {
+	ServerSideEncryption string
+	SSEKMSKeyId          string
+}
+
 func (c *container) PreSignRequest(ctx context.Context, clientMethod stow.ClientMethod, id string,
 	params stow.PresignRequestParams) (url string, err error) {
 
@@ -52,19 +58,28 @@ func (c *container) PreSignRequest(ctx context.Context, clientMethod stow.Client
 		}
 		log.Printf("bucket: %s // %s", c.name, id)
 		log.Printf("extra args: %s", c.extraArgs)
-		if bucketEncrypted, sseAlgortihm, encryptionKey := getKmsMasterKeyId(c.client, c.name); bucketEncrypted {
-			log.Printf("sse: %s // %s", sseAlgortihm, encryptionKey)
-			// switch sseAlgortihm {
-			// case s3.ServerSideEncryptionAes256:
-			// 	params.ServerSideEncryption = aws.String(sseAlgortihm)
-			// case s3.ServerSideEncryptionAwsKms:
-			// 	params.ServerSideEncryption = aws.String(sseAlgortihm)
-			// 	if encryptionKey != "" {
-			// 		params.SSEKMSKeyId = aws.String(encryptionKey)
-			// 	}
-			// }
-			params.ServerSideEncryption = aws.String("aws:kms")
-			params.SSEKMSKeyId = aws.String("kmsId") // placeholder - i think the presigned-url setup means this dummy value is sufficient
+
+		// First, try to set SSE using stow.config
+		var extraArgs S3ExtraArgs
+		json.Unmarshal([]byte(c.extraArgs), &extraArgs)
+		log.Printf("extra args: %s // %s", extraArgs.ServerSideEncryption, extraArgs.SSEKMSKeyId)
+
+		if extraArgs.ServerSideEncryption == "" {
+			// As backup, try to set SSE using s3.GetBucketEncryption
+			if bucketEncrypted, sseAlgortihm, encryptionKey := getKmsMasterKeyId(c.client, c.name); bucketEncrypted {
+				log.Printf("sse: %s // %s", sseAlgortihm, encryptionKey)
+				extraArgs.ServerSideEncryption, extraArgs.SSEKMSKeyId = sseAlgortihm, encryptionKey
+			}
+		}
+
+		switch extraArgs.ServerSideEncryption {
+		case s3.ServerSideEncryptionAes256:
+			params.ServerSideEncryption = aws.String(extraArgs.ServerSideEncryption)
+		case s3.ServerSideEncryptionAwsKms:
+			params.ServerSideEncryption = aws.String(extraArgs.ServerSideEncryption)
+			if extraArgs.SSEKMSKeyId != "" {
+				params.SSEKMSKeyId = aws.String(extraArgs.SSEKMSKeyId)
+			}
 		}
 
 		req, _ = c.client.PutObjectRequest(params)

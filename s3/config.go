@@ -1,7 +1,6 @@
 package s3
 
 import (
-	"log"
 	"net/http"
 	"net/url"
 	"time"
@@ -155,7 +154,6 @@ func newS3Client(config stow.Config, region string) (client *s3.S3, endpoint str
 		awsConfig.WithRegion("us-east-1")
 	}
 
-	log.Printf("role: %s // %s // %s", authType, accessKeyID, secretKey)
 	if authType == authTypeAccessKey {
 		awsConfig.WithCredentials(credentials.NewStaticCredentials(accessKeyID, secretKey, ""))
 	}
