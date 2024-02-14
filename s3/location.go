@@ -34,8 +34,8 @@ func (l *location) CreateContainer(containerName string) (stow.Container, error)
 		return nil, errors.Wrap(err, "CreateContainer, creating the bucket")
 	}
 
-	region, _ := l.config.Config("region")
-	extraArgs, _ := l.config.Config("extraArgs")
+	region, _ := l.config.Config(ConfigRegion)
+	extraArgs, _ := l.config.Config(ConfigExtraArgs)
 
 	newContainer := &container{
 		name:           containerName,
