@@ -26,6 +26,7 @@ type container struct {
 	// region describes the AWS Availability Zone of the S3 Bucket.
 	region         string
 	customEndpoint string
+	extraArgs      string
 }
 
 func (c *container) PreSignRequest(ctx context.Context, clientMethod stow.ClientMethod, id string,
@@ -50,6 +51,7 @@ func (c *container) PreSignRequest(ctx context.Context, clientMethod stow.Client
 			ContentMD5: contentMD5,
 		}
 		log.Printf("bucket: %s // %s", c.name, id)
+		log.Printf("extra args: %s", c.extraArgs)
 		if bucketEncrypted, sseAlgortihm, encryptionKey := getKmsMasterKeyId(c.client, c.name); bucketEncrypted {
 			log.Printf("sse: %s // %s", sseAlgortihm, encryptionKey)
 			// switch sseAlgortihm {

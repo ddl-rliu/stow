@@ -35,12 +35,14 @@ func (l *location) CreateContainer(containerName string) (stow.Container, error)
 	}
 
 	region, _ := l.config.Config("region")
+	extraArgs, _ := l.config.Config("extraArgs")
 
 	newContainer := &container{
 		name:           containerName,
 		client:         l.client,
 		region:         region,
 		customEndpoint: l.customEndpoint,
+		extraArgs:      extraArgs,
 	}
 
 	return newContainer, nil
