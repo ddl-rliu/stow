@@ -337,6 +337,7 @@ func getKmsMasterKeyId(svc *s3.S3, bucketName string) (bucketEncrypted bool, sse
 	output, err := svc.GetBucketEncryption(input)
 	if err != nil {
 		log.Printf("Bucket is not encrypted: %s", err.Error())
+		log.Printf("service: %s // %s", svc.ServiceID, svc.ServiceName)
 		return false, "", ""
 	}
 
