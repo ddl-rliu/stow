@@ -49,6 +49,7 @@ func (c *container) PreSignRequest(ctx context.Context, clientMethod stow.Client
 			Key:        aws.String(id),
 			ContentMD5: contentMD5,
 		}
+		log.Printf("bucket: %s // %s", c.name, id)
 		if bucketEncrypted, sseAlgortihm, encryptionKey := getKmsMasterKeyId(c.client, c.name); bucketEncrypted {
 			switch sseAlgortihm {
 			case s3.ServerSideEncryptionAes256:
@@ -337,7 +338,6 @@ func getKmsMasterKeyId(svc *s3.S3, bucketName string) (bucketEncrypted bool, sse
 	output, err := svc.GetBucketEncryption(input)
 	if err != nil {
 		log.Printf("Bucket is not encrypted: %s", err.Error())
-		log.Printf("service: %s // %s", svc.ServiceID, svc.ServiceName)
 		return false, "", ""
 	}
 
