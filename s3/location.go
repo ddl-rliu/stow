@@ -126,11 +126,13 @@ func (l *location) Containers(prefix, cursor string, count int) ([]stow.Containe
 			}
 		}
 
+		extraArgs, _ := l.config.Config(ConfigExtraArgs)
 		newContainer := &container{
 			name:           *(bucket.Name),
 			client:         client,
 			region:         bucketRegion,
 			customEndpoint: l.customEndpoint,
+			extraArgs:      extraArgs,
 		}
 
 		containers = append(containers, newContainer)
@@ -165,11 +167,13 @@ func (l *location) Container(id string) (stow.Container, error) {
 		}
 	}
 
+	extraArgs, _ := l.config.Config(ConfigExtraArgs)
 	c := &container{
 		name:           id,
 		client:         client,
 		region:         bucketRegion,
 		customEndpoint: l.customEndpoint,
+		extraArgs:      extraArgs,
 	}
 
 	if bucketRegionSet || bucketRegion != "" {
