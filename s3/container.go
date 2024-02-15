@@ -56,22 +56,19 @@ func (c *container) PreSignRequest(ctx context.Context, clientMethod stow.Client
 			Key:        aws.String(id),
 			ContentMD5: contentMD5,
 		}
-		log.Printf("bucket: %s // %s", c.name, id)
-		log.Printf("extra args: %s", c.extraArgs)
 
 		// First, try to set SSE using stow.config
 		var extraArgs S3ExtraArgs
 		json.Unmarshal([]byte(c.extraArgs), &extraArgs)
-		log.Printf("extra args: %s // %s", extraArgs.ServerSideEncryption, extraArgs.SSEKMSKeyId)
 
 		if extraArgs.ServerSideEncryption == "" {
 			// As backup, try to set SSE using s3.GetBucketEncryption
 			if bucketEncrypted, sseAlgortihm, encryptionKey := getKmsMasterKeyId(c.client, c.name); bucketEncrypted {
-				log.Printf("sse: %s // %s", sseAlgortihm, encryptionKey)
 				extraArgs.ServerSideEncryption, extraArgs.SSEKMSKeyId = sseAlgortihm, encryptionKey
 			}
 		}
 
+		// SSE info goes in headers, so that a valid signature is generated
 		switch extraArgs.ServerSideEncryption {
 		case s3.ServerSideEncryptionAes256:
 			params.ServerSideEncryption = aws.String(extraArgs.ServerSideEncryption)
@@ -83,6 +80,20 @@ func (c *container) PreSignRequest(ctx context.Context, clientMethod stow.Client
 		}
 
 		req, _ = c.client.PutObjectRequest(params)
+		q := req.HTTPRequest.URL.Query()
+
+		// SSE info also goes in query string, so that the pre-signed URL is self-contained
+		// i.e. works without headers
+		switch extraArgs.ServerSideEncryption {
+		case s3.ServerSideEncryptionAes256:
+			q.Add("x-amz-server-side-encryption", extraArgs.ServerSideEncryption)
+		case s3.ServerSideEncryptionAwsKms:
+			q.Add("x-amz-server-side-encryption", extraArgs.ServerSideEncryption)
+			if extraArgs.SSEKMSKeyId != "" {
+				q.Add("x-amz-server-side-encryption-aws-kms-key-id", extraArgs.SSEKMSKeyId)
+			}
+		}
+		req.HTTPRequest.URL.RawQuery = q.Encode()
 	default:
 		return "", fmt.Errorf("unsupported client method [%v]", clientMethod.String())
 	}

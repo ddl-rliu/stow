@@ -74,6 +74,42 @@ func TestPreSignedURL(t *testing.T) {
 	assert.NotEmpty(t, res)
 }
 
+func TestPreSignedURLSSEBucket(t *testing.T) {
+	is := is.New(t)
+	accessKeyId := os.Getenv("S3ACCESSKEYID")
+	secretKey := os.Getenv("S3SECRETKEY")
+	region := os.Getenv("S3REGION")
+
+	if accessKeyId == "" || secretKey == "" || region == "" {
+		t.Skip("skipping test because missing one or more of S3ACCESSKEYID S3SECRETKEY S3REGION")
+	}
+
+	config := stow.ConfigMap{
+		"access_key_id": accessKeyId,
+		"secret_key":    secretKey,
+		"region":        region,
+		"extra_args":    "{\"ServerSideEncryption\": \"aws:kms\", \"SSEKMSKeyId\": \"kmsId\"}",
+	}
+
+	location, err := stow.Dial("s3", config)
+	is.NoErr(err)
+
+	container, err := location.Container("flyte-demo")
+	if err != nil {
+		t.Skip(err)
+	}
+	ctx := context.Background()
+	res, err := container.PreSignRequest(ctx, stow.ClientMethodPut, "blah/bloh/fileon", stow.PresignRequestParams{
+		ExpiresIn: time.Hour,
+	})
+
+	is.NoErr(err)
+	t.Log(res)
+	assert.NotEmpty(t, res)
+	assert.Contains(t, res, "x-amz-server-side-encryption=aws%3Akms")
+	assert.Contains(t, res, "x-amz-server-side-encryption-aws-kms-key-id=kmsId")
+}
+
 func TestEtagCleanup(t *testing.T) {
 	etagValue := "9c51403a2255f766891a1382288dece4"
 	permutations := []string{

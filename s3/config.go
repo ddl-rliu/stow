@@ -51,7 +51,7 @@ const (
 	// This feature is useful for s3-compatible blob stores -- ie minio.
 	ConfigV2Signing = "v2_signing"
 
-	// ConfigV2Signing is an optional config value for extra arguments passed to S3 upload,
+	// ConfigExtraArgs is an optional config value for extra arguments passed to S3 upload,
 	// a string representing a JSON object of key/value pairs
 	// This feature is useful for setting server-side encryption headers.
 	ConfigExtraArgs = "extra_args"
