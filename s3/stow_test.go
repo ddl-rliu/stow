@@ -61,9 +61,6 @@ func TestPreSignedURL(t *testing.T) {
 	is.NoErr(err)
 
 	container, err := location.Container("flyte-demo")
-	if err != nil {
-		t.Skip(err)
-	}
 	ctx := context.Background()
 	res, err := container.PreSignRequest(ctx, stow.ClientMethodPut, "blah/bloh/fileon", stow.PresignRequestParams{
 		ExpiresIn: time.Hour,
@@ -95,9 +92,6 @@ func TestPreSignedURLSSEBucket(t *testing.T) {
 	is.NoErr(err)
 
 	container, err := location.Container("flyte-demo")
-	if err != nil {
-		t.Skip(err)
-	}
 	ctx := context.Background()
 	res, err := container.PreSignRequest(ctx, stow.ClientMethodPut, "blah/bloh/fileon", stow.PresignRequestParams{
 		ExpiresIn: time.Hour,
