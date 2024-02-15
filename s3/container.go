@@ -202,15 +202,25 @@ func (c *container) Put(name string, r io.Reader, size int64, metadata map[strin
 		Body:     r,
 		Metadata: mdPrepped, // map[string]*string
 	}
-	if bucketEncrypted, sseAlgortihm, encryptionKey := getKmsMasterKeyId(c.client, c.name); bucketEncrypted {
-		switch sseAlgortihm {
-		case s3.ServerSideEncryptionAes256:
-			params.ServerSideEncryption = aws.String(sseAlgortihm)
-		case s3.ServerSideEncryptionAwsKms:
-			params.ServerSideEncryption = aws.String(sseAlgortihm)
-			if encryptionKey != "" {
-				params.SSEKMSKeyId = aws.String(encryptionKey)
-			}
+
+	// First, try to set SSE using stow.config
+	var extraArgs S3ExtraArgs
+	json.Unmarshal([]byte(c.extraArgs), &extraArgs)
+
+	if extraArgs.ServerSideEncryption == "" {
+		// As backup, try to set SSE using s3.GetBucketEncryption
+		if bucketEncrypted, sseAlgortihm, encryptionKey := getKmsMasterKeyId(c.client, c.name); bucketEncrypted {
+			extraArgs.ServerSideEncryption, extraArgs.SSEKMSKeyId = sseAlgortihm, encryptionKey
+		}
+	}
+
+	switch extraArgs.ServerSideEncryption {
+	case s3.ServerSideEncryptionAes256:
+		params.ServerSideEncryption = aws.String(extraArgs.ServerSideEncryption)
+	case s3.ServerSideEncryptionAwsKms:
+		params.ServerSideEncryption = aws.String(extraArgs.ServerSideEncryption)
+		if extraArgs.SSEKMSKeyId != "" {
+			params.SSEKMSKeyId = aws.String(extraArgs.SSEKMSKeyId)
 		}
 	}
 
